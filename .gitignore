@@ -1,0 +1,10 @@
+# Maven target folder
+/target/
+# IDE files
+/.classpath 
+/.project 
+/.settings/ 
+/*.iml
+# Static resources and JSP views
+/src/main/webapp/resources/ 
+/src/main/webapp/WEB-INF/views/
