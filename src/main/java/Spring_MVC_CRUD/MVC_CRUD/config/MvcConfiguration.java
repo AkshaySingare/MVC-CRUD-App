@@ -45,8 +45,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
 	}
 	@Bean
 	public JdbcTemplate jdJdbcTemplate() {
-		return new JdbcTemplate(dataSource()	);
+		return new JdbcTemplate(dataSource());
 	}
-
 	
 }

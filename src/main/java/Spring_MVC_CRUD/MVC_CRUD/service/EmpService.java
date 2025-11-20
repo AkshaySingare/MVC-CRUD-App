@@ -23,7 +23,13 @@ public class EmpService {
 	}
 	public Employee fetchById(int id) {
 		return repo.fetchEmp(id);
-	}
+	}	
+	
+	public List<Employee> searchEmployees(String name) {
+        return repo.searchEmp(name);
+
+    }
+	
 	public int delete(int id) {
 		return repo.deleteEmp(id);
 	}

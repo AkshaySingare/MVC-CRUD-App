@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import Spring_MVC_CRUD.MVC_CRUD.model.Employee;
 import Spring_MVC_CRUD.MVC_CRUD.service.EmpService;
@@ -51,6 +52,25 @@ public class HomeController {
 	
 		return "Show";
 	}
+		
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET) // Search Emp 
+	public String searchEmp(@RequestParam("name") String name, Model model) {
+		
+//		System.out.println(name);
+		List<Employee> list = service.searchEmployees(name);
+	    
+
+	    model.addAttribute("employees", list);
+
+	    if (list.isEmpty()) {
+	        model.addAttribute("msg", "No Employees Found!");
+	    }
+
+	    return "Show";  // This will load Show.jsp
+	}
+	
+	
 	
 	@RequestMapping(value = "/update/{id}",method = RequestMethod.GET) //Fetch Employee For Update
 	public String fetchforUpdateEmp(@PathVariable("id") int id,Model model) {
@@ -60,12 +80,12 @@ public class HomeController {
 		return "UpdateForm";
 	}
 	@RequestMapping(value = "/updateEmp",method = RequestMethod.POST) // Update Employee 
-	public String updateEmp(@ModelAttribute Employee emp ,Model model) {
+	public String updateEmp(@ModelAttribute Employee emp, Model model) {
 		service.updateEmp(emp);
 		return "redirect:/show";
 	}
 	
-	@RequestMapping(value = "/delete/{id}",method = RequestMethod.GET) //Delete By id
+	@RequestMapping(value = "/delete/{id}",method = RequestMethod.GET) // Emp Delete By id
 	public String deleteEmp(@PathVariable("id") int id ,Model model) {
 		service.delete(id);
 		return "redirect:/show";

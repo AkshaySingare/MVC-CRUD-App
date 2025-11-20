@@ -7,10 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-
-//import org.springframework.beans.factory.annotation.Autowired;
-
-//import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import Spring_MVC_CRUD.MVC_CRUD.model.Employee;
@@ -62,9 +58,56 @@ public class EmpRepository {
 		});
 		return employee;
 	}
-	public int updateEmployee(Employee e) {
+	
+	public List<Employee> searchEmp(String name) { // Search Employee By name
+		System.out.println(name);
+		
+		List<Employee> list = jdbc.query("select *from Emp where name like ?", new Object[] {"%"+name+"%"}, new RowMapper<>() {
+
+			@Override
+			public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				Employee e = new Employee();
+				
+				e.setId(rs.getInt("id"));
+				e.setName(rs.getString("name"));
+				e.setEmail(rs.getString("email"));
+				e.setContact(rs.getString("contact"));
+				
+				return e;
+			}
+			
+		});
+//		System.out.println(list);
+	    return list;
+	}
+	
+	
+//    public List<Employee> searchEmp(String name) { //ChatGpt
+//
+//        String sql = "SELECT * FROM Emp WHERE name LIKE ?";
+//
+//        return jdbc.query(sql, new Object[] { "%" + name + "%" },
+//                new RowMapper<Employee>() {
+//                    @Override
+//                    public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+//                        Employee e = new Employee();
+//                        e.setId(rs.getInt("id"));
+//                        e.setName(rs.getString("name"));
+//                        e.setEmail(rs.getString("email"));
+//                        e.setContact(rs.getString("contact"));
+//                        return e;
+//                    }
+//                }
+//        );
+//    }
+
+
+	
+	public int updateEmployee(Employee e) { //Update Employee
 		return jdbc.update("update Emp set name=?,email=?,contact=? where id=?",new Object[] {e.getName(),e.getEmail(),e.getContact(),e.getId()});
 	}
+	
 	public int deleteEmp(int id) { // delete Employee by id
 		return jdbc.update("delete from Emp where id=?",new Object[] {id} );
 	}
